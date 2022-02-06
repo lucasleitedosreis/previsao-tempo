@@ -14,12 +14,17 @@
     <div class="container-search">
       <h1>Weather</h1>
       <input type="search" placeholder="Digite o local" id="search"></span>
-      <button id="btn"><span class="fas fa-search"></button>
+      <button class="btn"><span class="fas fa-search" style="font-size: 1.5em;"></button>
+      <button class="btn-location btn"><span class="fas fa-map-marked-alt" style="font-size: 1.5em;"></button>
     </div>
-    <div class="container-temp-icon loading">
-      <p class="cidade">Clima em Mutum</p>
+    <div class="time">
+      <p class="horas">15:16</p>
+      <p class="data">Sábado, 05 de Fevereiro de 2022</p>
+    </div>
+    <div class="container-weather loading">
+      <p class="cidade">Clima em Mutum <span class="country">BR</span></p>
       <p class="temperatura">28°</p>
-      <img src="./assets/img/tempestade.png" alt="" class="icon-clima">
+      <!-- <img src="./assets/img/tempestade.png" alt="" class="icon-clima"> -->
       <div class="container-info loading">
         <p class="descricao">Nublado</p>
         <p class="vento">Vento: 5 km/h</p>
@@ -27,7 +32,7 @@
       </div>
     </div>
   </div>
-  <script src="./script.js"></script>
+  <script src="./main.js"></script>
 </body>
 
 </html>

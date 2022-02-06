@@ -23,7 +23,7 @@ let weather = {
     const humidade = document.querySelector(".humidade");
     humidade.innerText = "Humidade: " + clima.main.humidity + " %";
 
-    const weatherCss = document.querySelector(".container-temp-icon");
+    const weatherCss = document.querySelector(".container-weather");
     weatherCss.classList.remove("loading");
 
     document.body.style.backgroundImage =
