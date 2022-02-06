@@ -88,5 +88,5 @@ function displayWeather(clima) {
   const weatherCss = document.querySelector(".container-weather");
   weatherCss.classList.remove("loading");
   document.body.style.backgroundImage =
-    "url('https://source.unsplash.com/1920x1080/?" + clima.name +"')";
+    "url('https://source.unsplash.com/1600x900/?" + clima.name + "')";
 }

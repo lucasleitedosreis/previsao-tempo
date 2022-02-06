@@ -134,7 +134,7 @@ body {
 
 @media (max-width: 600px) {
   .main .container-search h1 {
-    font-size: 4em;
+    font-size: 3.5em;
   }
   .main .container-search input {
     width: 200px;
@@ -145,13 +145,13 @@ body {
     height: 40px;
   }
   .main .container-weather {
-    margin-top: 30px;
+    margin-top: 20px;
   }
   .main .container-weather .cidade {
-    font-size: 3em;
+    font-size: 2.5em;
   }
   .main .container-weather .temperatura {
-    font-size: 4em;
+    font-size: 3.5em;
   }
   .main .container-info {
     font-size: 0.8em;
