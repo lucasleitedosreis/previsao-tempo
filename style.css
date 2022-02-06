@@ -137,11 +137,23 @@ body {
     font-size: 4em;
   }
   .main .container-search input {
-    width: 250px;
+    width: 200px;
     height: 40px;
   }
   .main .container-search .btn {
     width: 40px;
     height: 40px;
+  }
+  .main .container-weather {
+    margin-top: 30px;
+  }
+  .main .container-weather .cidade {
+    font-size: 3em;
+  }
+  .main .container-weather .temperatura {
+    font-size: 4em;
+  }
+  .main .container-info {
+    font-size: 0.8em;
   }
 } ;

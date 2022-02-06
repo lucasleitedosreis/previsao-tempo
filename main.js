@@ -1,6 +1,8 @@
-//Data e horario
-const horas = document.querySelector(".horas");
-const data = document.querySelectorAll(".data");
+// //Data e horario
+// const horas = document.querySelector(".horas");
+// const data = document.querySelectorAll(".data");
+// const dateNow = new Date();
+// data.innerText =
 
 //weather forecast
 const api = {
@@ -78,11 +80,13 @@ function fetchWeather(cidade) {
     .then((clima) => displayWeather(clima));
 }
 function displayWeather(clima) {
-  city.innerText = "Clima em " + clima.name + " " + clima.sys.country;
+  city.innerText = clima.name + " " + clima.sys.country;
   temperatura.innerText = clima.main.temp.toFixed() + "°C";
   descricao.innerText = clima.weather[0].description;
   vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
   humidade.innerText = "Humidade: " + clima.main.humidity + " %";
   const weatherCss = document.querySelector(".container-weather");
   weatherCss.classList.remove("loading");
+  document.body.style.backgroundImage =
+    "url('https://source.unsplash.com/1920x1080/?" + clima.name +"')";
 }
