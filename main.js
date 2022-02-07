@@ -1,9 +1,3 @@
-// //Data e horario
-// const horas = document.querySelector(".horas");
-// const data = document.querySelectorAll(".data");
-// const dateNow = new Date();
-// data.innerText =
-
 //weather forecast
 const api = {
   apiKey: "b4419c046bde93677ee945bc4e3273dd",
@@ -20,6 +14,7 @@ const iconImage = document.querySelector(".icon-clima");
 const descricao = document.querySelector(".descricao");
 const vento = document.querySelector(".vento");
 const humidade = document.querySelector(".humidade");
+const data = document.querySelector(".data");
 
 //usando a geolocalizção
 function buscarLocalizacao() {
@@ -85,8 +80,46 @@ function displayWeather(clima) {
   descricao.innerText = clima.weather[0].description;
   vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
   humidade.innerText = "Humidade: " + clima.main.humidity + " %";
+  //caso não tenha local recolhe o container, deixando somente a barra de pesquisa.
   const weatherCss = document.querySelector(".container-weather");
   weatherCss.classList.remove("loading");
+  //altera o background de acordo com a cidade
   document.body.style.backgroundImage =
     "url('https://source.unsplash.com/1600x900/?" + clima.name + "')";
+  //adicona data
+  let dateNow = new Date();
+  data.innerText = dateBuilder(dateNow);
+}
+//Data e horario
+function dateBuilder(d) {
+  let days = [
+    "Domingo",
+    "segunda",
+    "Terça",
+    "Quarta",
+    "Quinta",
+    "Sexta",
+    "Sábado",
+  ];
+  let months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+  let day = days[d.getDay()];
+  let date = d.getDate();
+  let month = months[d.getMonth()];
+  let year = d.getFullYear();
+  console.log(day);
+
+  return `${day}, ${date} de ${month} ${year}`;
 }

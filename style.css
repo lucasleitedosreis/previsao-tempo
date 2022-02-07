@@ -17,6 +17,7 @@ body {
   justify-content: center;
   align-items: center;
   font-family: "poppins", monospace;
+  overflow: hidden;
 }
 .main {
   max-width: 600px;
@@ -83,17 +84,15 @@ body {
   color: #fff;
   font-size: 1.5em;
   font-weight: 400;
+  margin-top: 20px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-.main .time .horas {
-  font-size: 2em;
 }
 .main .container-weather {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 .main .container-weather .cidade {
   width: 100%;
@@ -133,6 +132,9 @@ body {
 }
 
 @media (max-width: 600px) {
+  .main{
+    width: 400px;
+  }
   .main .container-search h1 {
     font-size: 3.5em;
   }
@@ -143,6 +145,9 @@ body {
   .main .container-search .btn {
     width: 40px;
     height: 40px;
+  }
+  .main .time {
+    font-size: 1em;
   }
   .main .container-weather {
     margin-top: 20px;
