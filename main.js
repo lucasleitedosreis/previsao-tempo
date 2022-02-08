@@ -54,7 +54,8 @@ function fetchCoordResults(latitude, longitude) {
 //trantamento do click e pegas os dados do input com click
 function handleClick(event) {
   event.preventDefault();
-  fetchWeather(inputSearch.value);
+  const cityName = inputSearch.value.toLowerCase();
+  fetchWeather(cityName);
 }
 btnSearch.addEventListener("click", handleClick);
 
@@ -62,7 +63,8 @@ btnSearch.addEventListener("click", handleClick);
 function enter(event) {
   const key = event.keyCode;
   if (key === 13) {
-    fetchWeather(inputSearch.value);
+    const cityName = inputSearch.value.toLowerCase();
+    fetchWeather(cityName);
   }
 }
 inputSearch.addEventListener("keypress", enter);
@@ -72,6 +74,9 @@ function fetchWeather(cidade) {
     `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`,
   )
     .then((response) => response.json())
+    .catch((error) => {
+      alert(error.message);
+    })
     .then((clima) => displayWeather(clima));
 }
 function displayWeather(clima) {
@@ -90,6 +95,7 @@ function displayWeather(clima) {
   let dateNow = new Date();
   data.innerText = dateBuilder(dateNow);
 }
+
 //Data e horario
 function dateBuilder(d) {
   let days = [
@@ -119,7 +125,6 @@ function dateBuilder(d) {
   let date = d.getDate();
   let month = months[d.getMonth()];
   let year = d.getFullYear();
-  console.log(day);
 
   return `${day}, ${date} de ${month} ${year}`;
 }
