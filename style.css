@@ -64,8 +64,8 @@ body {
   position: absolute;
   top: 195px;
   left: 63px;
-  font-size: 0.9em;
-  font-weight: 100;
+  font-size: 1em;
+  font-weight: 200;
   text-align: center;
   padding: 3px 6px;
   border-radius: 30px;
@@ -73,22 +73,6 @@ body {
   background: rgb(253, 78, 78);
 }
 .main .container-search .error.ativo {
-  display: block;
-}
-.main .error-localizacao {
-  display: none;
-  position: absolute;
-  top: 160px;
-  left: 50px;
-  font-size: 0.9em;
-  font-weight: 100;
-  text-align: center;
-  padding: 3px 6px;
-  border-radius: 30px;
-  color: rgb(255, 255, 255);
-  background: rgb(253, 78, 78);
-}
-.main .error-localizacao.ativo {
   display: block;
 }
 .main .container-search .btn {

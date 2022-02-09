@@ -35,7 +35,7 @@ function buscarLocalizacao() {
   }
   function showError(error) {
     erroLocalizacao.innerText = error.message;
-    erroLocalizacao.classList.add("ativo");
+    erro.classList.add("ativo");
   }
   inputSearch.value = "";
 }
@@ -48,9 +48,6 @@ function fetchCoordResults(latitude, longitude) {
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`,
   )
     .then((response) => response.json())
-    .catch((error) => {
-      alert(error.message);
-    })
     .then((clima) => displayWeather(clima));
 }
 //-----------------------------------------------------------------------------------
@@ -87,7 +84,7 @@ function fetchWeather(cidade) {
 function displayWeather(clima) {
   if (clima.cod == "404") {
     erro.classList.add("ativo");
-    erro.innerText = `${inputSearch.value} cidade não encontrada`;
+    erro.innerText = `${inputSearch.value}, cidade não encontrada.`;
   } else {
     erro.classList.remove("ativo");
     city.innerText = clima.name + " " + clima.sys.country;
