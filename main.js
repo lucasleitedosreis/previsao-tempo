@@ -5,6 +5,8 @@ const api = {
   lingua: "pt_br",
 };
 const inputSearch = document.getElementById("search");
+const erro = document.querySelector(".error");
+const erroLocalizacao = document.querySelector(".error-localizacao");
 const btnSearch = document.querySelector(".btn");
 const btnLocation = document.querySelector(".btn-location");
 const city = document.querySelector(".cidade");
@@ -17,21 +19,23 @@ const humidade = document.querySelector(".humidade");
 const data = document.querySelector(".data");
 
 //usando a geolocalizção
+//-----------------------------------------------------------------------------------
 function buscarLocalizacao() {
   if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(setPosition, showError);
+    navigator.geolocation.getCurrentPosition(positionSuccess, showError);
     //alerta de erro caso a geolocalização não funcione
   } else {
     alert("Desculpe a geolocalização não é suportada pelo navegador");
   }
   //pega os valores da localização
-  function setPosition(position) {
+  function positionSuccess(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     fetchCoordResults(latitude, longitude);
   }
   function showError(error) {
-    alert(`erro: ${error.message}`);
+    erroLocalizacao.innerText = error.message;
+    erroLocalizacao.classList.add("ativo");
   }
   inputSearch.value = "";
 }
@@ -49,17 +53,18 @@ function fetchCoordResults(latitude, longitude) {
     })
     .then((clima) => displayWeather(clima));
 }
-
+//-----------------------------------------------------------------------------------
 //usando a barra de pesquisa
 //trantamento do click e pegas os dados do input com click
 function handleClick(event) {
   event.preventDefault();
   const cityName = inputSearch.value.toLowerCase();
+  erroLocalizacao.classList.remove("ativo");
   fetchWeather(cityName);
 }
 btnSearch.addEventListener("click", handleClick);
-
-//tratamento do enter, pegas os dados do input pressionando enter
+//-----------------------------------------------------------------------------------
+//tratamento do enter, pega os dados do input pressionando enter
 function enter(event) {
   const key = event.keyCode;
   if (key === 13) {
@@ -69,62 +74,91 @@ function enter(event) {
 }
 inputSearch.addEventListener("keypress", enter);
 
+//-----------------------------------------------------------------------------------
+//fetch usando a cidade
 function fetchWeather(cidade) {
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`,
   )
     .then((response) => response.json())
-    .catch((error) => {
-      alert(error.message);
-    })
     .then((clima) => displayWeather(clima));
 }
+
 function displayWeather(clima) {
-  city.innerText = clima.name + " " + clima.sys.country;
-  temperatura.innerText = clima.main.temp.toFixed() + "°C";
-  descricao.innerText = clima.weather[0].description;
-  vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
-  humidade.innerText = "Humidade: " + clima.main.humidity + " %";
-  //caso não tenha local recolhe o container, deixando somente a barra de pesquisa.
-  const weatherCss = document.querySelector(".container-weather");
-  weatherCss.classList.remove("loading");
-  //altera o background de acordo com a cidade
-  document.body.style.backgroundImage =
-    "url('https://source.unsplash.com/1600x900/?" + clima.name + "')";
-  //adicona data
-  let dateNow = new Date();
-  data.innerText = dateBuilder(dateNow);
-}
+  if (clima.cod == "404") {
+    erro.classList.add("ativo");
+    erro.innerText = `${inputSearch.value} cidade não encontrada`;
+  } else {
+    erro.classList.remove("ativo");
+    city.innerText = clima.name + " " + clima.sys.country;
+    temperatura.innerText = clima.main.temp.toFixed();
+    descricao.innerText = clima.weather[0].description;
+    vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
+    humidade.innerText = "Humidade: " + clima.main.humidity + " %";
 
-//Data e horario
-function dateBuilder(d) {
-  let days = [
-    "Domingo",
-    "segunda",
-    "Terça",
-    "Quarta",
-    "Quinta",
-    "Sexta",
-    "Sábado",
-  ];
-  let months = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
-  ];
-  let day = days[d.getDay()];
-  let date = d.getDate();
-  let month = months[d.getMonth()];
-  let year = d.getFullYear();
+    //-----------------------------------------------------------------------------------
+    //altera o icone do clima de acordo com idClima recebido da api
+    const idClima = clima.weather[0].id;
+    if (idClima == 800) {
+      iconImage.src = "./assets/img/sol.png";
+    } else if (idClima >= 200 && idClima <= 232) {
+      iconImage.src = "./assets/img/tempestade.png";
+    } else if (idClima >= 600 && idClima <= 622) {
+      iconImage.src = "./assets/img/neve.png";
+    } else if (idClima >= 701 && idClima <= 781) {
+      iconImage.src = "./assets/img/neblina.png";
+    } else if (idClima >= 801 && idClima <= 804) {
+      iconImage.src = "./assets/img/nublado.png";
+    } else if (
+      (idClima >= 300 && idClima <= 321) ||
+      (idClima >= 500 && idClima <= 531)
+    ) {
+      iconImage.src = "./assets/img/chuva.png";
+    }
+    //-----------------------------------------------------------------------------------
+    //caso não tenha local recolhe o container, deixando somente a barra de pesquisa.
+    const ocultaContainer = document.querySelector(".container-weather");
+    ocultaContainer.classList.remove("loading");
+    //-----------------------------------------------------------------------------------
+    //altera o background de acordo com a cidade
+    // document.body.style.backgroundImage =
+    //   "url('https://source.unsplash.com/1600x900/?" + clima.name + "')";
+    //-----------------------------------------------------------------------------------
+    //adicona data
+    let dateNow = new Date();
+    data.innerText = dateBuilder(dateNow);
+  }
 
-  return `${day}, ${date} de ${month} ${year}`;
+  //Data e horario
+  function dateBuilder(d) {
+    let days = [
+      "Domingo",
+      "segunda",
+      "Terça",
+      "Quarta",
+      "Quinta",
+      "Sexta",
+      "Sábado",
+    ];
+    let months = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+    let day = days[d.getDay()];
+    let date = d.getDate();
+    let month = months[d.getMonth()];
+    let year = d.getFullYear();
+
+    return `${day}, ${date} de ${month} ${year}`;
+  }
 }

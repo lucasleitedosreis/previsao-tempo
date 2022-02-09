@@ -12,18 +12,25 @@
 <body>
   <div class="main">
     <div class="container-search">
-      <h1>Weather</h1>
-      <input type="search" placeholder="Digite o local" id="search"></span>
-      <button class="btn"><span class="fas fa-search" style="font-size: 1.5em;"></button>
-      <button class="btn-location btn"><span class="fas fa-map-marked-alt" style="font-size: 1.5em;"></button>
+      <h1>Clima</h1>
+      <input type="search" placeholder="Digite o local" id="search">
+      <button class="btn"><em class="fas fa-search" style="font-size: 1.5em;"></em></button>
+      <button class="btn-location btn"><em class="fas fa-map-marked-alt" style="font-size: 1.5em;"></em></button>
+      <p class="error">Local não encontrado</p>
+      <p class="error-localizacao">Local não encontrado</p>
     </div>
     <div class="time">
       <p class="data">Sábado, 05 de Fevereiro de 2022</p>
     </div>
     <div class="container-weather loading">
       <p class="cidade">Mutum<span class="country">BR</span></p>
-      <p class="temperatura">28°</p>
-      <!-- <img src="./assets/img/tempestade.png" alt="" class="icon-clima"> -->
+      <div class="temp">
+        <span class="temperatura">28</span>
+        <span class="deg">°</span>C
+      </div>
+      <div class="content-icon-img">
+        <img src="#" alt="Ilustração do clima" class="icon-clima">
+      </div>
       <div class="container-info loading">
         <p class="descricao">Nublado</p>
         <p class="vento">Vento: 5 km/h</p>
