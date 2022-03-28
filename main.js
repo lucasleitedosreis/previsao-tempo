@@ -1,3 +1,22 @@
+// Enmu listando os grupos associados com a imagem
+const WEATHER_MAIN_CODES_IMAGES = {
+  Thunderstorm: "tempestade.png",
+  Drizzle: "chuva.png",
+  Rain: "chuva.png",
+  Snow: "neve.png",
+  Clear: "sol.png",
+  Clouds: "nublado.png",
+  Mist: "mist.png",
+  Haze: "haze.png",
+  Dust: "dust.png",
+  Smoke: "smoke.png",
+  Fog: "fog.png",
+  Sand: "sand.png",
+  Ash: "ash.png",
+  Squall: "squall.png",
+  Tornado: "tornado.png",
+};
+
 //weather forecast
 const api = {
   apiKey: "b4419c046bde93677ee945bc4e3273dd",
@@ -50,6 +69,7 @@ function fetchCoordResults(latitude, longitude) {
     .then((response) => response.json())
     .then((clima) => displayWeather(clima));
 }
+
 //-----------------------------------------------------------------------------------
 //usando a barra de pesquisa
 //trantamento do click e pegas os dados do input com click
@@ -82,49 +102,37 @@ function fetchWeather(cidade) {
 }
 
 function displayWeather(clima) {
-  if (clima.cod == "404") {
+  if (clima.cod === "404") {
     erro.classList.add("ativo");
     erro.innerText = `${inputSearch.value}, cidade não encontrada.`;
-  } else {
-    erro.classList.remove("ativo");
-    city.innerText = clima.name + " " + clima.sys.country;
-    temperatura.innerText = clima.main.temp.toFixed();
-    descricao.innerText = clima.weather[0].description;
-    vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
-    humidade.innerText = "Humidade: " + clima.main.humidity + " %";
-
-    //-----------------------------------------------------------------------------------
-    //altera o icone do clima de acordo com idClima recebido da api
-    const idClima = clima.weather[0].id;
-    if (idClima == 800) {
-      iconImage.src = "./assets/img/sol.png";
-    } else if (idClima >= 200 && idClima <= 232) {
-      iconImage.src = "./assets/img/tempestade.png";
-    } else if (idClima >= 600 && idClima <= 622) {
-      iconImage.src = "./assets/img/neve.png";
-    } else if (idClima >= 701 && idClima <= 781) {
-      iconImage.src = "./assets/img/neblina.png";
-    } else if (idClima >= 801 && idClima <= 804) {
-      iconImage.src = "./assets/img/nublado.png";
-    } else if (
-      (idClima >= 300 && idClima <= 321) ||
-      (idClima >= 500 && idClima <= 531)
-    ) {
-      iconImage.src = "./assets/img/chuva.png";
-    }
-    //-----------------------------------------------------------------------------------
-    //caso não tenha local recolhe o container, deixando somente a barra de pesquisa.
-    const ocultaContainer = document.querySelector(".container-weather");
-    ocultaContainer.classList.remove("loading");
-    //-----------------------------------------------------------------------------------
-    //altera o background de acordo com a cidade
-    // document.body.style.backgroundImage =
-    //   "url('https://source.unsplash.com/1600x900/?" + clima.name + "')";
-    //-----------------------------------------------------------------------------------
-    //adicona data
-    let dateNow = new Date();
-    data.innerText = dateBuilder(dateNow);
+    return;
   }
+
+  erro.classList.remove("ativo");
+  city.innerText = clima.name + " " + clima.sys.country;
+  temperatura.innerText = clima.main.temp.toFixed();
+  descricao.innerText = clima.weather[0].description;
+  vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
+  humidade.innerText = "Humidade: " + clima.main.humidity + " %";
+
+  //-----------------------------------------------------------------------------------
+  //altera o icone do clima de acordo com idClima recebido da api
+  const { main: weatherMain } = clima.weather[0];
+  const weaterImage = WEATHER_MAIN_CODES_IMAGES[weatherMain];
+  iconImage.src = `./assets/img/${weaterImage}`;
+
+  //-----------------------------------------------------------------------------------
+  //caso não tenha local recolhe o container, deixando somente a barra de pesquisa.
+  const ocultaContainer = document.querySelector(".container-weather");
+  ocultaContainer.classList.remove("loading");
+  //-----------------------------------------------------------------------------------
+  //altera o background de acordo com a cidade
+  // document.body.style.backgroundImage =
+  //   "url('https://source.unsplash.com/1600x900/?" + clima.name + "')";
+  //-----------------------------------------------------------------------------------
+  //adicona data
+  let dateNow = new Date();
+  data.innerText = dateBuilder(dateNow);
 
   //Data e horario
   function dateBuilder(d) {
