@@ -1,21 +1,5 @@
 // Enmu listando os grupos associados com a imagem
-const WEATHER_MAIN_CODES_IMAGES = {
-  Thunderstorm: "tempestade.png",
-  Drizzle: "chuva.png",
-  Rain: "chuva.png",
-  Snow: "neve.png",
-  Clear: "sol.png",
-  Clouds: "nublado.png",
-  Mist: "mist.png",
-  Haze: "haze.png",
-  Dust: "dust.png",
-  Smoke: "smoke.png",
-  Fog: "fog.png",
-  Sand: "sand.png",
-  Ash: "ash.png",
-  Squall: "squall.png",
-  Tornado: "tornado.png",
-};
+import WEATHER_MAIN_CODES_IMAGES from "/codeImages.js";
 
 //weather forecast
 const api = {
@@ -24,7 +8,7 @@ const api = {
   lingua: "pt_br",
 };
 const inputSearch = document.getElementById("search");
-const erro = document.querySelector(".error");
+const error = document.querySelector(".error");
 const erroLocalizacao = document.querySelector(".error-localizacao");
 const btnSearch = document.querySelector(".btn");
 const btnLocation = document.querySelector(".btn-location");
@@ -103,12 +87,12 @@ function fetchWeather(cidade) {
 
 function displayWeather(clima) {
   if (clima.cod === "404") {
-    erro.classList.add("ativo");
-    erro.innerText = `${inputSearch.value}, cidade não encontrada.`;
+    error.classList.add("ativo");
+    error.innerText = `${inputSearch.value}, cidade não encontrada.`;
     return;
   }
 
-  erro.classList.remove("ativo");
+  error.classList.remove("ativo");
   city.innerText = clima.name + " " + clima.sys.country;
   temperatura.innerText = clima.main.temp.toFixed();
   descricao.innerText = clima.weather[0].description;
