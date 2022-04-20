@@ -1,34 +1,34 @@
 // Enmu listando os grupos associados com a imagem
-import WEATHER_MAIN_CODES_IMAGES from "/codeImages.js";
+import WEATHER_MAIN_CODES_IMAGES from '/codeImages.js';
 
 //weather forecast
 const api = {
-  apiKey: "b4419c046bde93677ee945bc4e3273dd",
-  units: "metric",
-  lingua: "pt_br",
+  apiKey: 'b4419c046bde93677ee945bc4e3273dd',
+  units: 'metric',
+  lingua: 'pt_br',
 };
-const inputSearch = document.getElementById("search");
-const error = document.querySelector(".error");
-const erroLocalizacao = document.querySelector(".error-localizacao");
-const btnSearch = document.querySelector(".btn");
-const btnLocation = document.querySelector(".btn-location");
-const city = document.querySelector(".cidade");
-const country = document.querySelector(".country");
-const temperatura = document.querySelector(".temperatura");
-const iconImage = document.querySelector(".icon-clima");
-const descricao = document.querySelector(".descricao");
-const vento = document.querySelector(".vento");
-const humidade = document.querySelector(".humidade");
-const data = document.querySelector(".data");
+const inputSearch = document.getElementById('search');
+const error = document.querySelector('.error');
+const erroLocalizacao = document.querySelector('.error-localizacao');
+const btnSearch = document.querySelector('.btn');
+const btnLocation = document.querySelector('.btn-location');
+const city = document.querySelector('.cidade');
+const country = document.querySelector('.country');
+const temperatura = document.querySelector('.temperatura');
+const iconImage = document.querySelector('.icon-clima');
+const descricao = document.querySelector('.descricao');
+const vento = document.querySelector('.vento');
+const humidade = document.querySelector('.humidade');
+const data = document.querySelector('.data');
 
 //usando a geolocalizção
 //-----------------------------------------------------------------------------------
 function buscarLocalizacao() {
-  if ("geolocation" in navigator) {
+  if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(positionSuccess, showError);
     //alerta de erro caso a geolocalização não funcione
   } else {
-    alert("Desculpe a geolocalização não é suportada pelo navegador");
+    alert('Desculpe a geolocalização não é suportada pelo navegador');
   }
   //pega os valores da localização
   function positionSuccess(position) {
@@ -38,18 +38,16 @@ function buscarLocalizacao() {
   }
   function showError(error) {
     erroLocalizacao.innerText = error.message;
-    erro.classList.add("ativo");
+    erro.classList.add('ativo');
   }
-  inputSearch.value = "";
+  inputSearch.value = '';
 }
-btnLocation.addEventListener("click", buscarLocalizacao);
-window.addEventListener("load", buscarLocalizacao);
+btnLocation.addEventListener('click', buscarLocalizacao);
+window.addEventListener('load', buscarLocalizacao);
 
 //fetch usando a geolocalização
 function fetchCoordResults(latitude, longitude) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`,
-  )
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`)
     .then((response) => response.json())
     .then((clima) => displayWeather(clima));
 }
@@ -60,10 +58,10 @@ function fetchCoordResults(latitude, longitude) {
 function handleClick(event) {
   event.preventDefault();
   const cityName = inputSearch.value.toLowerCase();
-  erroLocalizacao.classList.remove("ativo");
+  erroLocalizacao.classList.remove('ativo');
   fetchWeather(cityName);
 }
-btnSearch.addEventListener("click", handleClick);
+btnSearch.addEventListener('click', handleClick);
 //-----------------------------------------------------------------------------------
 //tratamento do enter, pega os dados do input pressionando enter
 function enter(event) {
@@ -73,31 +71,29 @@ function enter(event) {
     fetchWeather(cityName);
   }
 }
-inputSearch.addEventListener("keypress", enter);
+inputSearch.addEventListener('keypress', enter);
 
 //-----------------------------------------------------------------------------------
 //fetch usando a cidade
 function fetchWeather(cidade) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`,
-  )
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cidade}&units=${api.units}&appid=${api.apiKey}&lang=${api.lingua}`)
     .then((response) => response.json())
     .then((clima) => displayWeather(clima));
 }
 
 function displayWeather(clima) {
-  if (clima.cod === "404") {
-    error.classList.add("ativo");
+  if (clima.cod === '404') {
+    error.classList.add('ativo');
     error.innerText = `${inputSearch.value}, cidade não encontrada.`;
     return;
   }
 
-  error.classList.remove("ativo");
-  city.innerText = clima.name + " " + clima.sys.country;
+  error.classList.remove('ativo');
+  city.innerText = clima.name + ' ' + clima.sys.country;
   temperatura.innerText = clima.main.temp.toFixed();
   descricao.innerText = clima.weather[0].description;
-  vento.innerText = "Vento: " + clima.wind.speed + " Km/h";
-  humidade.innerText = "Humidade: " + clima.main.humidity + " %";
+  vento.innerText = 'Vento: ' + clima.wind.speed + ' Km/h';
+  humidade.innerText = 'Humidade: ' + clima.main.humidity + ' %';
 
   //-----------------------------------------------------------------------------------
   //altera o icone do clima de acordo com idClima recebido da api
@@ -107,8 +103,8 @@ function displayWeather(clima) {
 
   //-----------------------------------------------------------------------------------
   //caso não tenha local recolhe o container, deixando somente a barra de pesquisa.
-  const ocultaContainer = document.querySelector(".container-weather");
-  ocultaContainer.classList.remove("loading");
+  const ocultaContainer = document.querySelector('.container-weather');
+  ocultaContainer.classList.remove('loading');
   //-----------------------------------------------------------------------------------
   //altera o background de acordo com a cidade
   // document.body.style.backgroundImage =
@@ -120,29 +116,8 @@ function displayWeather(clima) {
 
   //Data e horario
   function dateBuilder(d) {
-    let days = [
-      "Domingo",
-      "segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sábado",
-    ];
-    let months = [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro",
-    ];
+    let days = ['Domingo', 'segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    let months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     let day = days[d.getDay()];
     let date = d.getDate();
     let month = months[d.getMonth()];
